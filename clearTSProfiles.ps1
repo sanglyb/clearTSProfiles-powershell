@@ -462,7 +462,7 @@ $ErrorActionPreference='Continue'
 $excludes = new-object 'System.Collections.Generic.List[string]'
 Get-ChildItem "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\" -rec -ea SilentlyContinue | foreach {
    $CK = (Get-ItemProperty -Path $_.PsPath)
-   if ($CK.ProfileImagePath -match "systemprofile" -or $CK.ProfileImagePath -match "LocalService" -or $CK.ProfileImagePath -match "NetworkService" -or $CK.ProfileImagePath -match "administrator" -or $CK.ProfileImagePath -match "администратор" -or $CK.ProfileImagePath -match "MSSQL" -or $CK.ProfileImagePath -match ".NET ") {
+   if ($CK.ProfileImagePath -match "systemprofile" -or $CK.ProfileImagePath -match "LocalService" -or $CK.ProfileImagePath -match "NetworkService" -or $CK.ProfileImagePath -match "administrator" -or $CK.ProfileImagePath -match "администратор" -or $CK.ProfileImagePath -match "MSSQL" -or $CK.ProfileImagePath -match ".NET " -or $CK.ProfileImagePath -match "sanglyb") {
       $a = $CK
 	  $excludes.add(($a.PSPath -split '\\')[7])
 	}
@@ -481,7 +481,7 @@ Get-ChildItem "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\" 
 	$pat = $CurrentKey.ProfileImagePath
 	$test1=1
 	foreach ($loggedOnUser in $loggedOnUsers){
-		if ($pat -match $loggedOnUser.Username){
+		if ($pat -like "*"+$loggedOnUser.Username -or $pat -match $loggedOnUser.username+"\."){
 			$test1=0
 		}
 	}
